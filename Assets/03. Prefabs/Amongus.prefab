@@ -875,7 +875,7 @@ GameObject:
   - component: {fileID: 5604459298858951776}
   m_Layer: 0
   m_Name: Amongus
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -913,7 +913,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69b5a38d0f47f924c8a80cde17817459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.5
+  moveSpeed: 1
 --- !u!1 &3702593159453289344
 GameObject:
   m_ObjectHideFlags: 0
