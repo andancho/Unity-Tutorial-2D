@@ -6,6 +6,7 @@ public class StudyLog : MonoBehaviour
 {
     public float moveSpeed = 5f;
 
+    public static int coinCount = 0; // 코인 획득 수
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -52,7 +53,7 @@ public class StudyLog : MonoBehaviour
         Vector3 dir = new Vector3(h, 0, v);
 
         Vector3 normalDir = dir.normalized; //  정규화 과정 (0 ~ 1)
-        Debug.Log($"현재 입력 : {normalDir}");
+        //Debug.Log($"현재 입력 : {normalDir}");
 
         transform.position += normalDir * moveSpeed * Time.deltaTime;
         
