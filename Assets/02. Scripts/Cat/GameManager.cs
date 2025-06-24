@@ -7,7 +7,7 @@ namespace Cat_Game
     public class GameManager : MonoBehaviour
     {
         public TextMeshProUGUI playTimeUI;
-        float timer;
+        private static float timer;
         public TextMeshProUGUI scoreUI;
         public GameObject scoreImg;
 
@@ -29,6 +29,11 @@ namespace Cat_Game
 
             scoreUI.text = score.ToString($"X {score}"); //점수 표시
 
+        }
+        public static void ResetPlayUI()
+        {
+            timer = 0f;
+            score = 0;
         }
     }
 }

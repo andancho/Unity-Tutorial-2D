@@ -1,4 +1,5 @@
 using Cat_Game;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
@@ -7,8 +8,7 @@ public class Cat_Controller : MonoBehaviour
     Rigidbody2D catRb;
     Animator catAnim;
 
-    public GameObject winVideo;
-    public GameObject loseVideo;
+    public VideoManager videoManager;
 
     public GameObject gameOverUI;
     public GameObject fadeUI;
@@ -19,12 +19,17 @@ public class Cat_Controller : MonoBehaviour
     public int jumpCount = 0;
     public SoundManager soundManager; // 사운드 매니저를 참조하기 위한 변수
 
-    void Start()
+    void Awake()
     {
         catRb = GetComponent<Rigidbody2D>();
         catAnim = GetComponent<Animator>();
     }
-    
+
+    private void OnEnable()
+    {
+        transform.localPosition = new Vector3(-4.68805f, 1.155351f, -0.4674037f); // 고양이 위치 초기값으로 설정(초기화)
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < 2)
@@ -53,9 +58,10 @@ public class Cat_Controller : MonoBehaviour
             if (GameManager.score == 10)
             {
                 fadeUI.SetActive(true); // Fade UI 활성화
-                fadeUI.GetComponent<FadePanel>().OnFade(1.5f, Color.white);
+                fadeUI.GetComponent<FadePanel>().OnFade(3f, Color.white, true);
                 this.GetComponent<CircleCollider2D>().enabled = false; // 충돌 감지 비활성화
-                Invoke("WinVideo", 1.5f); // 승리 비디오 재생 호출
+
+                StartCoroutine(EndingRoutine(true));
             }
         }
     }
@@ -77,10 +83,10 @@ public class Cat_Controller : MonoBehaviour
             soundManager.OnColliderSound(); // 게임 오버 사운드 재생
             gameOverUI.SetActive(true); // 게임 오버 UI 활성화
             fadeUI.SetActive(true); // Fade UI 활성화
-            fadeUI.GetComponent<FadePanel>().OnFade(1.5f, Color.black);
+            fadeUI.GetComponent<FadePanel>().OnFade(3f, Color.black, false);
             this.GetComponent<CircleCollider2D>().enabled = false; // 충돌 감지 비활성화
-
-            Invoke("LoseVideo", 1.5f); // 게임 오버 비디오 재생 호출
+            
+            StartCoroutine(EndingRoutine(false));
         }
     }
 
@@ -101,21 +107,29 @@ public class Cat_Controller : MonoBehaviour
         }
     }
 
-    public void WinVideo()
+    IEnumerator EndingRoutine(bool isWin)
     {
-        winVideo.SetActive(true); // 승리 비디오 활성화
-        fadeUI.SetActive(false);
-        gameOverUI.SetActive(false); // 게임 오버 UI 비활성화
+        Debug.Log("코루틴 준비");
+        yield return new WaitForSeconds(3f);
+        Debug.Log("코루틴 1차 대기");
 
-        soundManager.audioSource.mute = true;
+        videoManager.VideoPlay(isWin); // 영상 재생 시작
+        //yield return new WaitForSeconds(1f);
+        Debug.Log("코루틴 2차 대기");
+
+
+        var newColor = isWin ? Color.white : Color.black;
+        fadeUI.GetComponent<FadePanel>().OnFade(3f, newColor, false); // 페이드 실행
+
+        //yield return new WaitForSeconds(3f);
+        fadeUI.SetActive(false);
+        gameOverUI.SetActive(false);
+        soundManager.audioSource.Stop();
+        // soundManager.audioSource.mute = true; // 음소거
+
+        transform.parent.gameObject.SetActive(false); // PLAY 오브젝트 Off
+        Debug.Log("영상 재생 완료");
+
     }
 
-    public void LoseVideo()
-    {
-        loseVideo.SetActive(true); // 승리 비디오 활성화
-        fadeUI.SetActive(false);
-        gameOverUI.SetActive(false); // 게임 오버 UI 비활성화
-
-        soundManager.audioSource.mute = true;
-    }
 }

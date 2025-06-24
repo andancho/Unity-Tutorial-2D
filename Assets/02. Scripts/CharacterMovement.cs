@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterControl : MonoBehaviour
 {
     private Rigidbody2D characterRb;
     public SpriteRenderer[] renderers;

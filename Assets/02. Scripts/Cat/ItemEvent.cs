@@ -13,6 +13,12 @@ public class ItemEvent : MonoBehaviour
     public GameObject apple;
     public GameObject particle;
 
+    Vector3 initPos;
+    private void Awake()
+    {
+        initPos = transform.position;
+    }
+
     private void Start()
     {
         SetRandomSetting(transform.position.x);

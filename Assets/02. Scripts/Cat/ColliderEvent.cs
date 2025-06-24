@@ -14,7 +14,7 @@ public class ColliderEvent : MonoBehaviour
             
             soundManager.audioSource.Stop();// BGM 정지
 
-            Invoke("SetAct", 3f); // 플레이 오브젝트 비활성화
+            //Invoke("SetAct", 3.6f); // 플레이 오브젝트 비활성화
         }
     }
 

@@ -7,18 +7,22 @@ public class FadePanel : MonoBehaviour
     public Image fadePanel;
     public bool isFadeout = false;
 
-    public void OnFade(float fadeTime, Color color)
+    public void OnFade(float fadeTime, Color color, bool isFadeStart)
     {
-        StartCoroutine(FadeRoutine(fadeTime, color)); // 페이드 루틴 시작
+        //Debug.Log("OnFade");
+        StopAllCoroutines();
+        StartCoroutine(FadeRoutine(fadeTime, color, isFadeStart)); // 페이드 루틴 시작
     }
 
     
 
-    IEnumerator FadeRoutine(float fadeTime, Color color)
+    IEnumerator FadeRoutine(float fadeTime, Color color, bool isFadeStart)
     {
         float timer = 0f;
         float percent = 0f; // 초기 퍼센트 값
-        
+
+        float value = isFadeStart ? percent : 1 - percent; // 페이드 시작 여부에 따라 초기값 설정
+
         while (percent <= 1)
         {
             timer += Time.deltaTime; // 타이머 증가

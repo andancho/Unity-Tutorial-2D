@@ -17,13 +17,24 @@ namespace Cat_Game
         public SoundManager soundManager; // 사운드 매니저
 
         public Button startButton;
-        private void Start()
+        public Button reStartButton;
+        void Awake()
         {
-            playObj.SetActive(false); // 플레이 오브젝트 비활성화
-            playUI.SetActive(false); // 플레이 UI 비활성화
-            introUI.SetActive(true); // 인트로 UI 활성화
+            playObj.SetActive(false);
+            introUI.SetActive(true);
+            playUI.SetActive(false);
+        }
 
+        void Start()
+        {
             startButton.onClick.AddListener(OnStartButton);
+            reStartButton.onClick.AddListener(OnRestartButton);
+        }
+
+        public void OnRestartButton()
+        {
+            GameManager.ResetPlayUI();
+            playObj.SetActive(true);
         }
         public void OnStartButton()
         {
